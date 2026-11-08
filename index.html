@@ -20,7 +20,7 @@
     <!-- Sign-in Prompt -->
     <div id="auth-container">
         <h2>Holy Sophia Text Reader</h2>
-        <p>Sign in wi-th your Google account to load your study folders.</p>
+        <p>Sign in with your Google account to load your study folders.</p>
         <button class="btn" id="authorize_button" onclick="handleAuthClick()">Sign In with Google</button>
     </div>
 
@@ -35,6 +35,9 @@
 
     <!-- Reader Output Container -->
     <div id="html-output"></div>
+    <script>
+        const htmlOutput = document.getElementById('html-output');
+    </script>
 
     <!-- Include your custom rendering logic -->
     <script src="app-new-logic.js"></script>
