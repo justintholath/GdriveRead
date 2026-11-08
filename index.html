@@ -133,52 +133,66 @@
         }
 
         // 2. Load text files from the chosen subfolder
-        async function loadTextsFromSelectedFolder() {
-            const selectElement = document.getElementById('folder-select');
-            const folderId = selectElement.value;
+async function loadTextsFromSelectedFolder() {
+    const selectElement = document.getElementById('folder-select');
+    const parentFolderId = selectElement.value;
 
-            if (!folderId) {
-                alert('Please select a folder first.');
-                return;
-            }
+    if (!parentFolderId) {
+        alert('Please select a folder first.');
+        return;
+    }
 
-            try {
-                const filesResponse = await gapi.client.drive.files.list({
-                    q: `'${folderId}' in parents and trashed = false`,
-                    fields: 'files(id, name, mimeType)',
-                    orderBy: 'name',
-                });
+    try {
+        // 1. Find the "texts" subfolder inside the selected course folder
+        const folderResponse = await gapi.client.drive.files.list({
+            q: `'${parentFolderId}' in parents and name = 'texts' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
+            fields: 'files(id, name)',
+        });
 
-                const files = filesResponse.result.files;
-                if (!files || files.length === 0) {
-                    alert('Selected folder is empty.');
-                    return;
-                }
-
-                let displayText = "";
-
-                for (const file of files) {
-                    const fileContentResponse = await gapi.client.drive.files.get({
-                        fileId: file.id,
-                        alt: 'media',
-                    });
-                    
-                    if (displayText) {
-                        displayText += `\npb:\n`;
-                    }
-                    displayText += `\n${fileContentResponse.body}\n`;
-                }
-
-                // Hide dropdown and display reader view
-                document.getElementById('selector-container').style.display = 'none';
-                document.getElementById('html-output').style.display = 'block';
-                convertMarkdown(displayText);
-
-            } catch (err) {
-                console.error("Error reading folder contents:", err);
-                alert("Error loading texts: " + err.message);
-            }
+        const folders = folderResponse.result.files;
+        if (!folders || folders.length === 0) {
+            alert('Could not find a subfolder named "texts" inside this course folder.');
+            return;
         }
+        const targetFolderId = folders[0].id;
+
+        // 2. List all text files inside that "texts" subfolder
+        const filesResponse = await gapi.client.drive.files.list({
+            q: `'${targetFolderId}' in parents and trashed = false`,
+            fields: 'files(id, name, mimeType)',
+            orderBy: 'name',
+        });
+
+        const files = filesResponse.result.files;
+        if (!files || files.length === 0) {
+            alert('The "texts" folder is empty.');
+            return;
+        }
+
+        let displayText = "";
+
+        for (const file of files) {
+            const fileContentResponse = await gapi.client.drive.files.get({
+                fileId: file.id,
+                alt: 'media',
+            });
+            
+            if (displayText) {
+                displayText += `\npb:\n`;
+            }
+            displayText += `\n${fileContentResponse.body}\n`;
+        }
+
+        // Hide dropdown and display reader view
+        document.getElementById('selector-container').style.display = 'none';
+        document.getElementById('html-output').style.display = 'block';
+        convertMarkdown(displayText);
+
+    } catch (err) {
+        console.error("Error reading folder contents:", err);
+        alert("Error loading texts: " + err.message);
+    }
+}
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
