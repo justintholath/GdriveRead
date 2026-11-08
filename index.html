@@ -20,7 +20,7 @@
     <!-- Sign-in Prompt -->
     <div id="auth-container">
         <h2>Holy Sophia Text Reader</h2>
-        <p>Sign in with your Google account to load your study folders.</p>
+        <p>Sign in wi-th your Google account to load your study folders.</p>
         <button class="btn" id="authorize_button" onclick="handleAuthClick()">Sign In with Google</button>
     </div>
 
@@ -183,7 +183,7 @@ async function loadTextsFromSelectedFolder() {
             displayText += `\n${fileContentResponse.body}\n`;
         }
 
-        // Hide dropdown and display reader view
+        // Hide dropdown and display reader view correctly using getElementById
         document.getElementById('selector-container').style.display = 'none';
         document.getElementById('html-output').style.display = 'block';
         convertMarkdown(displayText);
