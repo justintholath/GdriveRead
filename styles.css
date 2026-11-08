@@ -1,0 +1,60 @@
+/* styles.css */
+
+body { font-family: Verdana, sans-serif; font-size:14px; line-height: 21px; width: 21.2cm; margin: 0 auto; /* Center the container on the screen */}
+h1 { text-align: center; font-size: 22px; line-height: 25px; margin-top: 25px; margin-bottom: 0px; } /* Total space: 50px */
+h2 { text-align: left; font-size: 18px; line-height: 22px; margin-top: 18px;  margin-bottom: 0px; }  /* Total space: 40px */
+h3 { text-align: left; font-size: 16px; line-height: 19px; margin-top: 16px;  margin-bottom: 0px; }  /* Total space: 35px */
+h4 { text-align: left; font-size: 14px; line-height: 16px; margin-top: 14px;  margin-bottom: 0px; }  /* Total space: 30px */
+h5 { text-align: left; font-size: 12px; line-height: 15px; margin-top: 10px;  margin-bottom: 0px; }  /* Total space: 25px */
+
+p {
+    font-family: 'Verdana'; font-size: 15px; line-height: 21px; margin-top: 8px; margin-bottom: 0px;
+    text-align: justify; /* Common for manuals, but 'left' is safer for pixel counts */
+}
+
+.hebrew {
+  font-family: "SBL Hebrew", "Ezra SIL", "Frank Ruhl Hofshi", serif;
+  font-size: 1.9em;
+  line-height: 1.2;
+}
+
+button { padding: 10px 15px; font-size: 14px; cursor: pointer; margin-right: 10px; }
+
+.container { 
+            height: 28.7cm; /* A4 height */
+            border-left: 1px solid #ccc; border-right: 1px solid #ccc;
+            box-sizing: border-box; /* Includes padding and border in the element's total width and height. This overrides default where padding is outside */
+            padding-top: 0.1cm; 
+            padding-left: 2cm; padding-right: 2cm; /* Similar to the print margin for visual consistency */
+            padding-bottom: 0.1cm; /* as we have a footer on every page */
+        }
+.cfooter {
+            height: 1.0cm; /* A4 height */
+            border-left: 1px solid #ccc; border-right: 1px solid #ccc; 
+            border-bottom: 1px solid #ccc;
+            line-height: 1;
+            text-align: right;
+            box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+            padding-top: 0cm; padding-left: 2cm; padding-right: 2cm; /* Same as the print margin for visual consistency */
+            padding-bottom: 0.9cm; /* Some space left after the page number for visual appeal */
+        }
+
+table { width: 100%; margin-top: 0px; margin-bottom: 0px}  th, td { border: 1px solid black; padding: 0px; }
+
+@media all { 
+    .page-break { display: none; }
+}
+@media print {
+    .page-break { display: block; page-break-before: always; }
+    @page { size: A4; /* Sets the page size to A4 */ margin-top: 0.0in; margin-left: 0.0in; margin-right: 0.0in; margin-bottom: 0.0in; }
+    mark {
+        /* Force background colors to print on the <mark> tag */
+        -webkit-print-color-adjust: exact !important; 
+        print-color-adjust: exact !important;
+        
+        /* You can explicitly set the color just in case */
+        background-color: yellow !important; 
+        color: black !important; /* Keep the text visible */
+    }
+}
+
